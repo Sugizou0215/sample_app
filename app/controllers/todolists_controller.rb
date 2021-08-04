@@ -1,20 +1,15 @@
 class TodolistsController < ApplicationController
   def new
-
     @list = List.new
-
   end
 
   def create
-
     @list = List.new(list_params)
-
     if @list.save
-      redirect_to todolist_path(list.id)
+      redirect_to todolist_path(@list.id)
     else
       render :new
     end
-
   end
 
   def index
@@ -35,11 +30,16 @@ class TodolistsController < ApplicationController
     redirect_to todolist_path(list.id)
   end
 
+  def destroy
+    list = List.find(params[:id])  # データ（レコード）を1件取得
+    list.destroy  # データ（レコード）を削除
+    redirect_to todolists_path  # 投稿一覧画面へリダイレクト
+
+  end
+
   private
   def list_params
-
     params.require(:list).permit(:title, :body, :image)
-
   end
 
 end
